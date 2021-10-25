@@ -1,5 +1,5 @@
 <?php
-    class user_DB
+    class userDB
 {
     public $_idUser;             // уникальный индентификатор пользовател
     public $_nameUser;
