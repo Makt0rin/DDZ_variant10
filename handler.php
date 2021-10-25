@@ -1,12 +1,12 @@
 <?php
-include 'classUsers.php';
+include 'UsersDB.php';
 class handler_Post
 {
     private $__DB;
     
     public function __construct()
     {
-        $this->__DB = new user_DB();
+        $this->__DB = new userDB();
       
     }
     
