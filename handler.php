@@ -1,6 +1,6 @@
 <?php
-include 'UsersDB.php';
-class handler_Post
+include 'users.php';
+class handler
 {
     private $__DB;
     
@@ -10,27 +10,29 @@ class handler_Post
       
     }
     
-    public function handler_login($email, $password) //ok
+    public function handler_login($email, $password): bool //ok
     {
         $id = $this->__DB->getIdUser($email, $password);
-        if ($id !== "not user")
+        if ($id !== NULL)
         {
             $_SESSION["name"] = $this->__DB->_nameUser;
             $_SESSION["id"] = $id;
-         }
-         else
-         {
-             return false;
-         }
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
-    public function handler_registration($email,$name,$password)  //ok
+    public function handler_registration($email, $name, $password)  //ok
     {
             if($this->__DB->registration($email, $name, $password))
             {
                 $_SESSION["name"] = $this->__DB->_nameUser;
                 $_SESSION["id"] = $this->__DB->_idUser;
+                return true;
             }
-            return false; 
+            return false;
     }
     
     public function handler_tab($letter)

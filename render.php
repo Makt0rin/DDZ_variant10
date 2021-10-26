@@ -23,10 +23,10 @@ class rendering
     {
         ob_start();
         session_start();
-        $this->__hendlerPost = new handler_Post();
+        $this->__hendlerPost = new handler();
     }
     
-    public function login($flag)
+    public function login($flag = true)
     {
         $html = $this->header_output();
         $html .= '<div class="parent d-flex align-items-center justify-content-center bg-light">
@@ -116,56 +116,56 @@ class rendering
                 <nav class=\"header\">
                     <div class=\"row\">
                         <div class=\"logo col-md-2\">Адресная книга</div>
-                        <div class=\"search col-md-8 \"> 
-                            <ul class=\"nav justify-content-end\">
-                                <form method=\"post\">
-                                    <li class=\"nav-item\">
-                                        <div class=\"input-group\">
-                                            <div class=\"input-group-prepend\">
-                                                <span class=\"input-group-text\">
-                                                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"
-                                                        fill=\"currentColor\" class=\"bi bi-search\" viewBox=\"0 0 16 16\">
-                                                        <path
-                                                            d=\"M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z\" />
-                                                    </svg>
-                                                </span>
-                                            </div>
-                                            <input type=\"text\" name=\"find\" class=\"form-control\"
+                            <div class=\"search col-md-8 \"> 
+                                <ul class=\"nav justify-content-end\">
+                                    <form method=\"post\">
+                                        <li class=\"nav-item\">
+                                            <div class=\"input-group\">
+                                                <div class=\"input-group-prepend\">
+                                                    <span class=\"input-group-text\">
+                                                        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"
+                                                            fill=\"currentColor\" class=\"bi bi-search\" viewBox=\"0 0 16 16\">
+                                                            <path
+                                                                d=\"M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z\" />
+                                                        </svg>
+                                                    </span>
+                                                </div>
+                                                <input type=\"text\" name=\"find\" class=\"form-control\"
                                                 aria-label=\"Text input with segmented dropdown button\">
-                                            <div class=\"input-group-append\">
-                                                <button type=\"button\" class=\"btn btn-primary\" type=\"submit\" disabled>Поиск
-                                                    по...</button>
-                                                <button type=\"button\"
-                                                    class=\"btn btn-outline-secondary dropdown-toggle dropdown-toggle-split\"
-                                                    data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
-                                                    <span class=\"sr-only\">Toggle Dropdown</span>
-                                                </button>
-                                                <div class=\"dropdown-menu\">
-                                                    <button class=\"dropdown-item\" name=\"fio\" href=\"#\">ФИО</button>
-                                                    <button class=\"dropdown-item\" name=\"place_of_work\" href=\"#\">Организация</button>
-                                                    <button class=\"dropdown-item\" name=\"email\" href=\"#\">Электронная почта</button>
+                                                <div class=\"input-group-append\">
+                                                    <button type=\"button\" class=\"btn btn-primary\" type=\"submit\" disabled>Поиск
+                                                        по...</button>
+                                                    <button type=\"button\"
+                                                        class=\"btn btn-outline-secondary dropdown-toggle dropdown-toggle-split\"
+                                                        data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
+                                                        <span class=\"sr-only\">Toggle Dropdown</span>
+                                                    </button>
+                                                    <div class=\"dropdown-menu\">
+                                                        <button class=\"dropdown-item\" name=\"fio\" href=\"#\">ФИО</button>
+                                                        <button class=\"dropdown-item\" name=\"place_of_work\" href=\"#\">Организация</button>
+                                                        <button class=\"dropdown-item\" name=\"email\" href=\"#\">Электронная почта</button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </li>
+                                        </li>
+                                    </form>
+                                </ul>
+                            </div>
+                            <div class=\"profile col-md-1\">
+                                <button type=\"button\" class=\"profileButton btn btn-outline-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#exampleModal1\">".
+                                    $_SESSION['name'].
+                                "</button>
+                            </div>
+                            <div class=\"profile col-md-1\">
+                                <form method=\"post\">
+                                    <button name=\"exitButton\" type=\"submit\" class=\"exitButton btn btn-danger\">
+                                        Выйти
+                                    </button>
                                 </form>
-                            </ul>
+                            </div>
                         </div>
-                        <div class=\"profile col-md-1\">
-                    <button type=\"button\" class=\"profileButton btn btn-outline-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#exampleModal1\">".
-                        $_SESSION['name'].
-                    "</button>
                     </div>
-                        <div class=\"profile col-md-1\">
-                <form method=\"post\">
-                <button name=\"exitButton\" type=\"submit\" class=\"exitButton btn btn-danger\">
-                    Выйти
-                </button>
-                </form>
-            </div>
-                </div>
-            </div>
-        </nav>";
+                </nav>";
     }
     
     public function letter_output($activeLetter)
@@ -173,19 +173,19 @@ class rendering
         $html = "<form method=\"post\">
                 <div class=\"letters btn-group\">";
         
-            for($i = 0; $i < 54; $i++)
-            {   
-                if ($activeLetter === $this->__letterArr[$i])
-                {
-                    $html .= "<button type=\"submit\" name=\"letter\" value = \"".$this->__letterArr[$i]."\" class=\"btn btn-success \">"
-                    .$this->__letterArr[$i]."</button>";
-                }
-                else
-                {
-                    $html .= "<button type=\"submit\" name=\"letter\" value = \"".$this->__letterArr[$i]."\" class=\"btn btn-primary\">"
-                    .$this->__letterArr[$i]."</button>";
-                }
+        foreach($this->__letterArr as $letter)
+        {   
+            if ($activeLetter === $letter)
+            {
+                $html .= "<button type=\"submit\" name=\"letter\" value = \"".$letter."\" class=\"btn btn-success \">"
+                .$letter."</button>";
             }
+            else
+            {
+                $html .= "<button type=\"submit\" name=\"letter\" value = \"".$letter."\" class=\"btn btn-primary\">"
+                .$letter."</button>";
+            }
+        }
         return $html. "</div> </form>";
     } 
     
@@ -209,78 +209,11 @@ class rendering
                                 </li>
                                 <li class=\"edit nav-item\">
                                     
-                                    <button type=\"button\" data-bs-toggle=\"modal\" data-bs-target=\"#exampleModal".$key."\" >
+                                    <button type=\"button\" data-bs-toggle=\"modal\" data-bs-target=\"#Modal".$key."\" >
                                         <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"green\" class=\"bi bi-pencil\" viewBox=\"0 0 16 16\">
                                             <path d=\"M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z\" />
                                         </svg>
                                     </button>
-                                    <div class=\"modal fade\" id=\"exampleModal".$key."\" tabindex=\"-1\" aria-labelledby=\"exampleModalLabel\"aria-hidden=\"true\">
-                                        <div class=\"modal-dialog\">
-                                            <div class=\"modal-content\">
-                                                <div class=\"modal-header\">
-                                                    <h5 class=\"modal-title\" id=\"exampleModalLabel\">Изменение контакта</h5>
-                                                    <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>
-                                                 </div>
-                                                <div class=\"modal-body\">
-                                                    <form class=\"row\" method=\"post\">
-                                                        <div class=\"col-md-4\">
-                                                            <label for=\"firstName\" class=\"form-label\">Имя</label>
-                                                            <input type=\"text\" name=\"corectname\" value =\"".$contact['name']."\" class=\"form-control\" id=\"firstName\">
-                                                        </div>
-                                                        <div class=\"col-md-4\">
-                                                            <label for=\"secondName\" class=\"form-label\">Фамилия</label>
-                                                            <input type=\"text\" name=\"corectsurname\" value =\"".$contact['surname']."\" class=\"form-control\" id=\"secondName\">
-                                                        </div>
-                                                        <div class=\"col-md-4\">
-                                                            <label for=\"firdName\" class=\"form-label\">Отчество</label>
-                                                            <input type=\"text\" name=\"corectpatronymic\" value =\"".$contact['patronymic']."\" class=\"form-control\" id=\"firdName\">
-                                                        </div>
-                                                        <div class=\"col-md-6\">
-                                                            <label for=\"corporationName\" class=\"form-label\">Нименование организации</label>
-                                                            <input type=\"text\" name=\"corectplace_of_work\" value ='".$contact['place_of_work']."' patronymicclass=\"form-control\" id=\"corporationName\">
-                                                        </div>
-                                                        <div class=\"col-md-6\">
-                                                            <label for=\"corporationName\" class=\"form-label\">Должность</label>
-                                                            <input type=\"text\" name=\"corectpost\" value =\"".$contact['post']."\" class=\"form-control\" id=\"corporationName\">
-                                                        </div>
-                                                        <div class=\"col-md-6\">
-                                                            <label for=\"exampleInputEmail1\" class=\"form-label\">Email</label>
-                                                            <input type=\"email\" name=\"corectemail\" value =\"".$contact['email']."\" class=\"form-control\" id=\"exampleInputEmail1\"
-                                                                aria-describedby=\"emailHelp\">
-                                                        </div>";
-               if(isset($contact['phone_numbers'][0]))
-               {
-                 $html .= "                                     <div class=\"col-md-12\">
-                                                            <label for=\"phoneNumber\" class=\"form-label\">Телефон</label>
-                                                            <input type=\"tel\" name=\"corectnumber0\" value =\"".$contact['phone_numbers'][0]."\" class=\"form-control\" id=\"corporationName\">
-                                                        </div>
-                                                        <div class=\"addButton col-md-12\">";
-               }
-
-        $html .="                                                   <button type=\"submit\" name=\"corectContact\" value=\"".$contact['id']."\" >Изменить</button>
-                                                        </div>
-                                                        <div class=\"col-md-12\">
-                                                            <button type=\"button\" class=\"btn dropdown-toggle dropdown-toggle-split\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">
-                                                                <span>Дополнительные телефоны</span>
-                                                              </button>
-                                                              <div class=\"dropdown-menu\">";
-        for($i=1; $i<5; $i++)
-        {
-            if(isset($contact['phone_numbers'][$i]))
-            {
-                $pok = 1;
-                $html .="<input name=\"corectnumber".$i."\" value = \"".$contact['phone_numbers'][$i]."\" type=\"tel\" class=\"form-control\" id=\"phone".$i."\">";
-            }
-        }
-      
-            $html .="                                               <input name=\"corectnumberDop\" type=\"tel\" class=\"form-control\" id=\"phone\">                                           
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                      
                                 </li>
                                 <li class=\"edit nav-item\">
                                 <form method=\"post\">
@@ -318,7 +251,77 @@ class rendering
                             </ul>
                         </div>
                     </div>
-                </div>";
+                </div>
+                
+                <div class=\"modal fade\" id=\"Modal".$key."\" tabindex=\"-1\" aria-labelledby=\"ModalLabel\"aria-hidden=\"true\">
+                                        <div class=\"modal-dialog\">
+                                            <div class=\"modal-content\">
+                                                <div class=\"modal-header\">
+                                                    <h5 class=\"modal-title\" id=\"ModalLabel\">Изменение контакта</h5>
+                                                    <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>
+                                                </div>
+                                                <div class=\"modal-body\">
+                                                    <form method=\"post\" class=\"row\">
+                                                        <div class=\"col-md-4\">
+                                                            <label for=\"firstName\" class=\"form-label\">Имя</label>
+                                                            <input type=\"text\" name=\"corectname\" value =\"".$contact['name']."\" class=\"form-control\" id=\"firstName\">
+                                                        </div>
+                                                        <div class=\"col-md-4\">
+                                                            <label for=\"secondName\" class=\"form-label\">Фамилия</label>
+                                                            <input type=\"text\" name=\"corectsurname\" value =\"".$contact['surname']."\" class=\"form-control\" id=\"secondName\">
+                                                        </div>
+                                                        <div class=\"col-md-4\">
+                                                            <label for=\"firdName\" class=\"form-label\">Отчество</label>
+                                                            <input type=\"text\" name=\"corectpatronymic\" value ='".$contact['patronymic']."' class=\"form-control\" id=\"firdName\">
+                                                        </div>
+                                                        <div class=\"col-md-6\">
+                                                            <label for=\"corporationName\" class=\"form-label\">Нименование организации</label>
+                                                            <input type=\"text\" name=\"corectplace_of_work\" value ='".$contact['place_of_work']."'class=\"form-control\" id=\"corporationName\">
+                                                        </div>
+                                                        <div class=\"col-md-6\">
+                                                            <label for=\"corporationName\" class=\"form-label\">Должность</label>
+                                                            <input type=\"text\" name=\"corectpost\" value =\"".$contact['post']."\" class=\"form-control\" id=\"corporationName\">
+                                                        </div>
+                                                        <div class=\"col-md-6\">
+                                                            <label for=\"exampleInputEmail1\" class=\"form-label\">Email</label>
+                                                            <input type=\"email\" name=\"corectemail\" value =\"".$contact['email']."\" class=\"form-control\" id=\"exampleInputEmail1\"
+                                                                aria-describedby=\"emailHelp\">
+                                                        </div>";
+                                                                                  
+               if(isset($contact['phone_numbers'][0]))
+               {
+                 $html .= "                                     <div class=\"col-md-12\">
+                                                            <label for=\"phoneNumber\" class=\"form-label\">Телефон</label>
+                                                            <input type=\"tel\" name=\"corectnumber0\" value =\"".$contact['phone_numbers'][0]."\" class=\"form-control\" id=\"corporationName\">
+                                                        </div>";
+               }
+
+        $html .="                                       <div class=\"col-md-12\">
+                                                            <button type=\"button\" class=\"btn dropdown-toggle dropdown-toggle-split\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">
+                                                                <span>Дополнительные телефоны</span>
+                                                              </button>
+                                                        <div class=\"dropdown-menu\">";
+        for($i=1; $i<5; $i++)
+        {
+            if(isset($contact['phone_numbers'][$i]))
+            {
+                $pok = 1;
+                $html .="<input name=\"corectnumber".$i."\" value = \"".$contact['phone_numbers'][$i]."\" type=\"tel\" class=\"form-control\" id=\"phone".$i."\">";
+            }
+        }
+      
+            $html .="                                               <input name=\"corectnumberDop\" type=\"tel\" class=\"form-control\" id=\"phone\">                                           
+                                                            </div>
+                                                            <div class=\"addButton col-md-12\">
+                                                                <button type=\"submit\" class=\"btn btn-primary\">Изменить</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                      ";
             }
         }
         return $html;   
