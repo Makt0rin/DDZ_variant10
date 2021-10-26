@@ -216,32 +216,6 @@
         return $contactArr;   
     }
     
-//    public function getUserIdContact($idContact) 
-//    {
-//        $this->_dBContacts = $this->_dB->query("SELECT * FROM `all_contact`");
-//        foreach($this->_dBContacts as $alpha)
-//        {
-//            if($idContact === $alpha['id'])
-//            {
-//                return $alpha;
-//            }
-//        }
-//        return false;
-//    } 
-//    
-//    public function getContactOnNumber()
-//    {
-//        $numberArr = array();
-//        $this->_dBPhoneNumber = $this->_dB->query("SELECT * FROM `phone_number`");
-//        foreach($this->_dBPhoneNumber as $number)
-//        {
-//            if($idContact == $number['id_contact'])
-//            {
-//                $numberArr[] = $number['number'];
-//            }
-//        }
-//        return $numberArr;
-//    }
     
     public function corectContact($contactArr)
     {
