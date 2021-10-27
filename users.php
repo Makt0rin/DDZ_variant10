@@ -23,8 +23,7 @@
        $this->_dB->close();
     }
     
-    
-    public function registration($email, $name, $password)                                            //иначе
+    public function registration($email, $name, $password)
     {
         if ($this->uniqueEmail($email))
         {
@@ -107,7 +106,6 @@
         
         $idMessage = $this->getIdContact($contactArr);
        
-        
         foreach($contactArr['phone_numbers'] as $number)
         {
             if($number !== "")

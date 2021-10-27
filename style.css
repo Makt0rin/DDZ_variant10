@@ -1,0 +1,59 @@
+.header {
+    padding: 10px 50px;
+    border-radius: 2px;
+}
+.logo {
+    font-size: 18pt;
+    color: #4DD4AC;
+}
+.input-group-text{
+    background-color: #fff;
+}
+.letters {
+    margin-left: 3px;
+}
+.letters .btn {
+    width: 34px;
+}
+.main {
+    padding: 30px;
+}
+.card-body {
+    padding: 0px;
+}
+.edit button{
+    background: none;
+    border:0px;
+    cursor: pointer;
+}
+
+.contact {
+    margin-bottom: 30px;
+}
+
+.add{
+    width: 100%;
+    height: 200px;
+}
+.addButton{
+    margin-top: 15px;
+    text-align: right;
+}
+
+.morePhone {
+    margin-left: 5px;
+}
+
+
+.parent {
+    width: 100%;
+    height: 930px;
+}
+
+.child {
+    padding: 20px 15px;
+}
+
+.exitButton, .profileButton {
+    width: 120px;
+}
