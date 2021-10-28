@@ -1,5 +1,6 @@
 <?php
-    class userDB
+
+class userDB
 {
     public $_idUser;             // уникальный индентификатор пользовател
     public $_nameUser;
@@ -72,7 +73,7 @@
     
     public function getIdContact($contactArr)
     {
-        $this->_dBContacts = $this->_dB->query("SELECT * FROM `all_contact` WHERE id_user IN ('".$this->_idUser."')");
+        $this->_dBContacts = $this->_dB->query("SELECT * FROM `all_contact` WHERE id_user IN ('".$_SESSION['id']."')");
         foreach($this->_dBContacts as $alpha)
         {
             if($contactArr['name'] === $alpha['name'] 
@@ -116,16 +117,29 @@
          
     }
     
-    public function getContacts($firstLetterWord)
+  public function getContacts($letterOnButton, $lettersArr)
     {
         $contactArr = array();
         $this->_dBContacts = $this->_dB->query("SELECT * FROM `all_contact` WHERE id_user IN ('".$_SESSION['id']."')");
-        foreach($this->_dBContacts as $contact)
+        if ($letterOnButton === "...") {
+            foreach ($this->_dBContacts as $contact) {
+                if(!in_array(mb_strtoupper(mb_substr($contact['surname'], 0, 1)),$lettersArr))
+                {
+                    $contact['phone_numbers'] = $this->getPhone($contact['id']);
+                    $contactArr[] = $contact;
+                }
+            }
+        }
+        else 
         {
-            if(mb_strtoupper(mb_substr($contact['surname'], 0, 1)) === $firstLetterWord)
+            foreach($this->_dBContacts as $contact)
             {
-                $contact['phone_numbers'] = $this->getPhone($contact['id']);
-                $contactArr[] = $contact;
+                if(mb_strtoupper(mb_substr($contact['surname'], 0, 1)) === $letterOnButton)
+                {
+                    $contact['phone_numbers'] = $this->getPhone($contact['id']);
+                    $contactArr[] = $contact;
+                }
+
             }
         }
         return $contactArr;
@@ -169,12 +183,17 @@
             if(
                     (
                         (mb_strpos($fio, $contact['surname']) !== false && $contact['surname'] !== "") 
-                        && (mb_strpos($fio, $contact['name']) !== false && $contact['name'] !== "")
-                        && (mb_strpos($fio, $contact['patronymic']) !== false && $contact['patronymic'] !== "")
+                        && 
+                        (mb_strpos($fio, $contact['name']) !== false && $contact['name'] !== "")
+                        && 
+                        (mb_strpos($fio, $contact['patronymic']) !== false && $contact['patronymic'] !== "")
                     )
-                    || (mb_strpos($contact['surname'], $fio) !== false && $contact['surname'] !== "") 
-                    || (mb_strpos($contact['name'], $fio) !== false && $contact['name'] !== "")
-                    || (mb_strpos($contact['patronymic'], $fio) !== false && $contact['patronymic'] !== "")
+                    || 
+                    (mb_strpos($contact['surname'], $fio) !== false && $contact['surname'] !== "") 
+                    || 
+                    (mb_strpos($contact['name'], $fio) !== false && $contact['name'] !== "")
+                    || 
+                    (mb_strpos($contact['patronymic'], $fio) !== false && $contact['patronymic'] !== "")
                )
             {
                 $contact['phone_numbers'] = $this->getPhone($contact['id']);
@@ -212,34 +231,41 @@
             }
         }
         return $contactArr;   
+    } 
+    
+    public function getContactOnNumber($phoneNumber)
+    {
+        $this->_dBPhoneNumber = $this->_dB->query("SELECT * FROM `phone_number` WHERE number IN ('".$phoneNumber."')");
+        foreach($this->_dBPhoneNumber as $number)
+        {
+            $idContactArr[] = $number['id_contact']; 
+        }
+        
+        return $this->getContactOnId($idContactArr);
     }
     
-//    public function getUserIdContact($idContact) 
-//    {
-//        $this->_dBContacts = $this->_dB->query("SELECT * FROM `all_contact`");
-//        foreach($this->_dBContacts as $alpha)
-//        {
-//            if($idContact === $alpha['id'])
-//            {
-//                return $alpha;
-//            }
-//        }
-//        return false;
-//    } 
-//    
-//    public function getContactOnNumber()
-//    {
-//        $numberArr = array();
-//        $this->_dBPhoneNumber = $this->_dB->query("SELECT * FROM `phone_number`");
-//        foreach($this->_dBPhoneNumber as $number)
-//        {
-//            if($idContact == $number['id_contact'])
-//            {
-//                $numberArr[] = $number['number'];
-//            }
-//        }
-//        return $numberArr;
-//    }
+    public function getContactOnId($idContactArr) 
+    {
+        $str = "SELECT * FROM `all_contact` WHERE id IN (";
+       
+        foreach($idContactArr as $idContact)
+        {
+            $str .= "'".$idContact."', ";
+        }
+        $str = mb_substr($str, 0, mb_strlen($str) - 2);
+        $str .= ")";
+        
+        $contactArr = array();
+        
+        $this->_dBContacts = $this->_dB->query($str);
+        
+        foreach($this->_dBContacts as $contact)
+        {    
+            $contact['phone_numbers'] = $this->getPhone($contact['id']);
+            $contactArr[] = $contact;
+        }
+        return $contactArr;
+    }
     
     public function corectContact($contactArr)
     {

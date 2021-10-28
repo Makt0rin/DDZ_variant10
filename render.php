@@ -144,6 +144,7 @@ class rendering
                                                         <button class=\"dropdown-item\" name=\"fio\" href=\"#\">ФИО</button>
                                                         <button class=\"dropdown-item\" name=\"place_of_work\" href=\"#\">Организация</button>
                                                         <button class=\"dropdown-item\" name=\"email\" href=\"#\">Электронная почта</button>
+                                                        <button class=\"dropdown-item\" name=\"number\" href=\"#\">Номер телефона</button>
                                                     </div>
                                                 </div>
                                             </div>

@@ -95,6 +95,11 @@ class handler
         return $this->__DB->getContactOnEmail($_POST['find']);
     }
     
+    public function handler_find_on_number()
+    {
+        return $this->__DB->getContactOnNumber($_POST['find']);
+    }
+    
     public function hendler_edit_contact()
     {
            $contactArr = $this->inArrCorect();

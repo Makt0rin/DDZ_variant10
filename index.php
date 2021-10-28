@@ -63,6 +63,9 @@ if(isset($_SESSION['name']))
         if(isset($_POST['email'])){
             $contacts = $handler->handler_find_on_email();
         }
+        if(isset($_POST['number'])){
+           $contacts = $handler->handler_find_on_number();
+        }
         $activeLetter = 1;
     }
     $html = $render->main_rendering($activeLetter,$contacts);
